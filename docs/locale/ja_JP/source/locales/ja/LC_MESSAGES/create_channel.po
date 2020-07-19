@@ -1,0 +1,1820 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, hyperledger
+# This file is distributed under the same license as the
+# hyperledger-fabricdocs package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: hyperledger-fabricdocs master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-19 19:02+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../source/create_channel/channel_policies.md:1
+msgid "# Channel policies"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:3
+msgid ""
+"Channels are a private method of communication between organizations. As "
+"a result, most changes to the channel configuration need to be agreed to "
+"by other members of the channel. A channel would not be useful if an "
+"organization could join the channel and read the data on the ledger "
+"without getting the approval of other organizations. Any changes to the "
+"channel **structure** need to be approved by a set of organizations that "
+"can satisfy the channel policies."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:5
+msgid ""
+"Policies also govern the **processes** of how users interact with the "
+"channel, such as the set of organizations that need to approve a "
+"chaincode before it can be deployed to a channel or which actions need to"
+" be completed by channel administrators."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:7
+msgid ""
+"Channel policies are important enough that they need to be discussed in "
+"their own topic. Unlike other parts of the channel configuration, the "
+"policies that govern the channel are determined by how different sections"
+" of the `configtx.yaml` file work together. While channel policies can be"
+" configured for any use case with few constraints, this topic will focus "
+"on how to use the default policies provided by Hyperledger Fabric. If you"
+" use the default policies used by the Fabric test network or the [Fabric "
+"sample "
+"configuration](https://github.com/hyperledger/fabric/blob/master/sampleconfig/configtx.yaml),"
+" each channel you create will use a combination of signature policies, "
+"ImplicitMeta policies, and Access Control Lists to determine how "
+"organizations interact with the channel and agree to update the channel "
+"structure. You can learn more about the role of policies in Hyperledger "
+"Fabric by visiting the [Policies concept topic](../policies.html)."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:9
+msgid "## Signature policies"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:11
+msgid ""
+"By default, each channel member defines a set of signature policies that "
+"references their organization. When a proposal is submitted to a peer, or"
+" a transaction is submitted to the ordering nodes, the nodes read the "
+"signatures attached to the transaction and evaluate them against the "
+"signature policies defined in the channel configuration. Every signature "
+"policy has rule that specifies the set of organizations and identities "
+"whose signatures can satisfy the policy. You can see the signature "
+"policies defined by Org1 in the **Organizations** section of "
+"`configtx.yaml` below: ```yaml - &Org1"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:15
+msgid "..."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:28
+msgid "Policies:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:19
+#: ../../source/create_channel/channel_policies.md:42
+#: ../../source/create_channel/create_channel_config.md:50
+msgid "Readers:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:19
+#: ../../source/create_channel/create_channel_config.md:50
+msgid ""
+"Type: Signature Rule: \"OR('Org1MSP.admin', 'Org1MSP.peer', "
+"'Org1MSP.client')\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:22
+#: ../../source/create_channel/channel_policies.md:45
+#: ../../source/create_channel/create_channel_config.md:53
+msgid "Writers:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:22
+#: ../../source/create_channel/create_channel_config.md:53
+msgid "Type: Signature Rule: \"OR('Org1MSP.admin', 'Org1MSP.client')\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:25
+#: ../../source/create_channel/channel_policies.md:48
+#: ../../source/create_channel/create_channel_config.md:56
+msgid "Admins:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:25
+#: ../../source/create_channel/create_channel_config.md:56
+msgid "Type: Signature Rule: \"OR('Org1MSP.admin')\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:28
+#: ../../source/create_channel/channel_policies.md:54
+#: ../../source/create_channel/create_channel_config.md:60
+msgid "Endorsement:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:28
+#: ../../source/create_channel/create_channel_config.md:59
+msgid "Type: Signature Rule: \"OR('Org1MSP.peer')\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:30
+#: ../../source/create_channel/channel_policies.md:56
+#: ../../source/create_channel/create_channel.md:109
+#: ../../source/create_channel/create_channel.md:132
+#: ../../source/create_channel/create_channel_config.md:69
+#: ../../source/create_channel/create_channel_config.md:128
+#: ../../source/create_channel/create_channel_config.md:167
+#: ../../source/create_channel/create_channel_config.md:187
+msgid "```"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:32
+msgid ""
+"All the policies above can be satisfied by signatures from Org1. However,"
+" each policy lists a different set of roles from within the organization "
+"that are able to satisfy the policy. The `Admins` policy can only be "
+"satisfied by transactions submitted by an identity with an admin role, "
+"while only identities with a peer role can satisfy the `Endorsement` "
+"policy. A set of signatures attached to a single transaction can satisfy "
+"multiple signature policies. For example, if the endorsements attached to"
+" a transaction were provided by both Org1 and Org2, then this signature "
+"set would satisfy the `Endorsement` policy of Org1 and Org2."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:34
+msgid "## ImplicitMeta Policies"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:36
+msgid ""
+"If your channel uses the default policies, the signature policies for "
+"each organization are evaluated by ImplicitMeta policies at higher levels"
+" of the channel configuration. Instead of directly evaluating the "
+"signatures that are submitted to the channel, ImplicitMeta policies have "
+"rules specify a set of other policies in the channel configuration that "
+"can satisfy the policy. A transaction can satisfy an ImplicitMeta policy "
+"if it can satisfy the underlying set of signature policies that are "
+"referenced by the policy."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:38
+msgid ""
+"You can see the ImplicitMeta policies defined in the **Application** "
+"section of `configtx.yaml` file below: ```yaml Policies:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:42
+msgid "Type: ImplicitMeta Rule: \"ANY Readers\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:45
+msgid "Type: ImplicitMeta Rule: \"ANY Writers\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:48
+msgid "Type: ImplicitMeta Rule: \"MAJORITY Admins\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:51
+msgid "LifecycleEndorsement:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:51
+#: ../../source/create_channel/channel_policies.md:54
+msgid "Type: ImplicitMeta Rule: \"MAJORITY Endorsement\""
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:58
+msgid ""
+"The ImplicitMeta policies in the **Application** section govern how peer "
+"organizations interact with the channel. Each policy references the "
+"signature policies associated with each channel member. You see the "
+"relationship between the policies in the **Application** section and the "
+"policies in the **Organization** section below:"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:60
+msgid "![Application policies](application-policies.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:62
+msgid ""
+"*Figure 1: The Admins ImplicitMeta policy can be satisfied by a majority "
+"of the Admins signature policies that are defined by each organization.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:64
+msgid ""
+"Each policy is referred to its path in the channel configuration. Because"
+" the policies in the **Application** section are located in the "
+"application group, which is located inside the channel group, they are "
+"referred to as `Channel/Application` policies. Since most places in the "
+"Fabric documentation refer to policies by their path, we will refer to "
+"policies by their path for the rest of the tutorial."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:66
+msgid ""
+"The `Rule` in each ImplicitMeta references the name of the signature "
+"policies that can satisfy the policy. For example, the "
+"`Channel/Application/Admins` ImplicitMeta policy references the `Admins` "
+"signature policies for each organization. Each `Rule` also contains the "
+"number of signature policies that are required to satisfy the "
+"ImplicitMeta policy. For example, the `Channel/Application/Admins` policy"
+" requires that a majority of the `Admins` signature policies be "
+"satisfied."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:68
+msgid "![Application admins](application-admins.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:70
+msgid ""
+"*Figure 2: A channel update request submitted to the channel contains "
+"signatures from Org1, Org2, and Org3, satisfying the signature policies "
+"for each organization. As a result, the request satisfies the "
+"Channel/Application/Admins policy. The Org3 check is in light green "
+"because the signature was not required to reach to a majority.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:72
+msgid ""
+"To provide another example, the `Channel/Application/Endorsement` policy "
+"can be satisfied by a majority of organization `Endorsement` policies, "
+"which require signatures from the peers of each organization. This policy"
+" is used by the Fabric chaincode lifecycle as the default chaincode "
+"endorsement policy. Unless you commit a chaincode definition with a "
+"different endorsement policy, transactions that invoke a chaincode need "
+"to be endorsed by a majority of channel members."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:74
+msgid "![channel endorsement policies](application-endorsement.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:76
+msgid ""
+"*Figure 3: A transaction from a client application invoked a chaincode on"
+" the peers of Org1 and Org2. The chaincode invoke was successful, and the"
+" application received an endorsement from the peers of both "
+"organizations. Because this transaction satisfies the "
+"Channel/Application/Endorsement policy, the transaction meets the default"
+" endorsement policy and can be added to the channel ledger.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:78
+msgid ""
+"The advantage of using ImplicitMeta policies and signature policies "
+"together is that you can set the rules for governance at the channel "
+"level, while allowing each channel member to select the identities that "
+"are required to sign for their organization. For example, a channel can "
+"specify that a majority of organization admins are required to sign a "
+"channel configuration update. However, each organization can use their "
+"signature policies to select which identities from their organization are"
+" admins, or even require that multiple identities from their organization"
+" need to sign in order to approve a channel update."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:80
+msgid ""
+"Another advantage of ImplicitMeta policies is that they do not need to be"
+" updated when an organization is added or removed from the channel. Using"
+" *Figure 3* as an example, if two new organizations are added to the "
+"channel, the `Channel/Application/Endorsement` would require an "
+"endorsement from three organizations in order to validate a transaction."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:82
+msgid ""
+"A disadvantage of ImplicitMeta policies is that they do not explicitly "
+"read the signature policies used by the channel members (which is why "
+"they are called implicit policies). Instead, they assume that users have "
+"the required signature policies based on the configuration of the "
+"channel. The `rule` of the `Channel/Application/Endorsement` policy is "
+"based on the number of peer organizations in the channel. If two of the "
+"three organizations in *Figure 3* do not possess the `Endorsement` "
+"signature polices, no transaction would be able to get the majority "
+"required to meet the `Channel/Application/Endorsement` ImplicitMeta "
+"policy."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:84
+msgid "## Channel modification policies"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:86
+msgid ""
+"The channel **structure** is governed by modification policies within the"
+" channel configuration. Each component of the channel configuration has a"
+" modification policy that needs to be satisfied in order to be updated by"
+" channel members. For example, the policies and channel MSP defined by "
+"each organization, the application group that contains the members of the"
+" channel, and the components of the configuration that define the channel"
+" consenter set each have a different modification policy."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:88
+msgid ""
+"Each modification policy can reference an ImplicitMeta policy or a "
+"signature policy. For example, if you use the default policies, the "
+"values that define each organization reference the `Admins` signature "
+"policy associated with that organization. As a result, an organization "
+"can update their channel MSP or set an anchor peer without approval from "
+"other channel members. The modification policy of the application group "
+"that defines the set of channel members is the "
+"`Channel/Application/Admins` ImplicitMeta policy. As a result, the "
+"default policy is that a majority of organizations need to approve the "
+"addition or removal of a channel member."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:90
+msgid "## Channel policies and Access Control Lists"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:92
+msgid ""
+"The policies within the channel configuration are also referenced by "
+"[Access Control Lists (ACLs)](../access_control.html) that are used to "
+"restrict access to Fabric resources used by the channel. The ACLs extend "
+"the policies within the channel configuration to govern the **processes**"
+" of the channel. You can see the default ACLs in the [sample "
+"configtx.yaml "
+"file](http://github.com/hyperledger/fabric/blob/master/sampleconfig/configtx.yaml)."
+" Each ACL refers to a channel policy using the path. For example, the "
+"following ACL restricts who can invoke a chaincode based on the "
+"`/Channel/Application/Writers` policy: ``` # ACL policy for invoking "
+"chaincodes on peer peer/Propose: /Channel/Application/Writers ```"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:98
+msgid ""
+"Most of the default ACLs point to the ImplicitMeta policies in the "
+"application section of the channel configuration. To extend the example "
+"above, an organization can invoke a chaincode if they can satisfy the "
+"`/Channel/Application/Writers` policy."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:100
+msgid "![channel writer policies](application-writers.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:102
+msgid ""
+"*Figure 4: The peer/Propose ACL is satisfied by the "
+"/Channel/Application/Writers policy. This policy can be satisfied by a "
+"transaction submitted by a client application from any organization with "
+"the writers signature policy.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:104
+msgid "## Orderer policies"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:106
+msgid ""
+"The ImplicitMeta policies in the **Orderer** section of `configtx.yaml` "
+"govern the ordering nodes of a channel in a similar way as the "
+"**Application** section governs the peer organizations. The ImplicitMeta "
+"policies point to the signature policies associated with the "
+"organizations that are ordering service administrators."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:108
+msgid "![Orderer policies](orderer-policies.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:110
+msgid ""
+"*Figure 5: The Channel/Orderer/Admins policy points to the Admins "
+"signature policies associated with the administrators of the ordering "
+"service.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:112
+msgid ""
+"If you use the default policies, a majority of orderer organizations are "
+"required to approve the addition or removal of an ordering node."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:114
+msgid "![Orderer policies](orderer-admins.png)"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:116
+msgid ""
+"*Figure 6: A request submitted to remove an ordering node from the "
+"channel contains signatures from the three ordering organizations in the "
+"network, satisfying the Channel/Orderer/Admins policy. The Org3 check is "
+"in light green because the signature was not required to reach to a "
+"majority.*"
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:118
+msgid ""
+"The `Channel/Orderer/BlockValidation` policy is used by peers to confirm "
+"that new blocks being added to the channel were generated by an ordering "
+"node that is part of the channel consenter set, and that the block was "
+"not tampered with or created by another peer organization. By default, "
+"any orderer organization with a `Writers` signature policy can create and"
+" validate blocks for the channel."
+msgstr ""
+
+#: ../../source/create_channel/channel_policies.md:120
+#: ../../source/create_channel/create_channel.md:385
+msgid ""
+"<!--- Licensed under Creative Commons Attribution 4.0 International "
+"License https://creativecommons.org/licenses/by/4.0/ -->"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:1
+msgid "# Creating a new channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:3
+msgid ""
+"You can use this tutorial to learn how to create new channels using the "
+"[configtxgen](../commands/configtxgen.html) CLI tool and then use the "
+"[peer channel](../commands/peerchannel.html) commands to join a channel "
+"with your peers. While this tutorial will leverage the Fabric test "
+"network to create the new channel, the steps in this tutorial can also be"
+" used by network operators in a production environment."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:5
+msgid ""
+"In the process of creating the channel, this tutorial will take you "
+"through the following steps and concepts:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:7
+msgid "[Setting up the configtxgen tool](#setting-up-the-configtxgen-tool)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:8
+msgid "[Using the configtx.yaml file](#the-configtx-yaml-file)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:9
+msgid "[The orderer system channel](#the-orderer-system-channel)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:10
+msgid "[Creating an application channel](#creating-an-application-channel)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:11
+msgid "[Joining peers to the channel](#join-peers-to-the-channel)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:12
+msgid "[Setting anchor peers](#set-anchor-peers)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:14
+msgid "## Setting up the configtxgen tool"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:16
+msgid ""
+"Channels are created by building a channel creation transaction and "
+"submitting the transaction to the ordering service. The channel creation "
+"transaction specifies the initial configuration of the channel and is "
+"used by the ordering service to write the channel genesis block. While it"
+" is possible to build the channel creation transaction file manually, it "
+"is easier to use the [configtxgen](../commands/configtxgen.html) tool. "
+"The tool works by reading a `configtx.yaml` file that defines the "
+"configuration of your channel, and then writing the relevant information "
+"into the channel creation transaction. Before we discuss the "
+"`configtx.yaml` file in the next section, we can get started by "
+"downloading and setting up the `configtxgen` tool."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:18
+msgid ""
+"You can download the `configtxgen` binaries by following the steps to "
+"[install the samples, binaries and Docker images](../install.html). "
+"`configtxgen` will be downloaded to the `bin` folder of your local clone "
+"of the `fabric-samples` repository along with other Fabric tools."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:20
+msgid ""
+"For the purposes of this tutorial, we will want to operate from the "
+"`test-network` directory inside `fabric-samples`. Navigate to that "
+"directory using the following command: ``` cd fabric-samples/test-network"
+" ``` We will operate from the `test-network` directory for the remainder "
+"of the tutorial. Use the following command to add the configtxgen tool to"
+" your CLI path: ``` export PATH=${PWD}/../bin:$PATH ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:29
+msgid ""
+"In order to use `configtxgen`, you need to the set the `FABRIC_CFG_PATH` "
+"environment variable to the path of the directory that contains your "
+"local copy of the `configtx.yaml` file. For this tutorial, we will "
+"reference the `configtx.yaml` used to setup the Fabric test network in "
+"the `configtx` folder: ``` export FABRIC_CFG_PATH=${PWD}/configtx ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:34
+msgid ""
+"You can check that you can are able to use the tool by printing the "
+"`configtxgen` help text: ``` configtxgen --help ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:40
+msgid "## The configtx.yaml file"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:42
+msgid ""
+"The `configtx.yaml` file specifies the **channel configuration** of new "
+"channels. The information that is required to build the channel "
+"configuration is specified in a readable and editable form in the "
+"`configtx.yaml` file. The `configtxgen` tool uses the channel profiles "
+"defined in the `configtx.yaml` file to create the channel configuration "
+"and write it to the [protobuf format](https://developers.google.com"
+"/protocol-buffers) that can be read by Fabric."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:44
+msgid ""
+"You can find the `configtx.yaml` file that is used to deploy the test "
+"network in the `configtx` folder in the `test-network` directory. The "
+"file contains the following information that we will use to create our "
+"new channel:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:46
+msgid ""
+"**Organizations:** The organizations that can become members of your "
+"channel. Each organization has a reference to the cryptographic material "
+"that is used to build the [channel MSP](../membership/membership.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:47
+msgid ""
+"**Ordering service:** Which ordering nodes will form the ordering service"
+" of the network, and consensus method they will use to agree to a common "
+"order of transactions. The file also contains the organizations that will"
+" become the ordering service administrators."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:48
+msgid ""
+"**Channel policies** Different sections of the file work together to "
+"define the policies that will govern how organizations interact with the "
+"channel and which organizations need to approve channel updates. For the "
+"purposes of this tutorial, we will use the default policies used by "
+"Fabric."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:49
+msgid ""
+"**Channel profiles** Each channel profile references information from "
+"other sections of the `configtx.yaml` file to build a channel "
+"configuration. The profiles are used the create the genesis block of the "
+"orderer system channel and the channels that will be used by peer "
+"organizations. To distinguish them from the system channel, the channels "
+"used by peer organizations are often referred to as application channels."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:51
+msgid ""
+"The `configtxgen` tool uses `configtx.yaml` file to create a complete "
+"genesis block for the system channel. As a result, the system channel "
+"profile needs to specify the full system channel configuration. The "
+"channel profile used to create the channel creation transaction only "
+"needs to contain the additional configuration information required to "
+"create an application channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:53
+msgid ""
+"You can visit the [Using configtx.yaml to create a channel genesis "
+"block](create_channel_genesis.html) tutorial to learn more about this "
+"file. For now, we will return to the operational aspects of creating the "
+"channel, though we will reference parts of this file in future steps."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:55
+msgid "## Start the network"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:57
+msgid ""
+"We will use a running instance of the Fabric test network to create the "
+"new channel. For the sake of this tutorial, we want to operate from a "
+"known initial state. The following command will kill any active "
+"containers and remove any previously generated artifacts. Make sure that "
+"you are still operating from the `test-network` directory of your local "
+"clone of `fabric-samples`. ``` ./network.sh down ``` You can then use the"
+" following command to start the test network: ``` ./network.sh up ``` "
+"This command will create a Fabric network with the two peer organizations"
+" and the single ordering organization defined in the `configtx.yaml` "
+"file. The peer organizations will operate one peer each, while the "
+"ordering service administrator will operate a single ordering node. When "
+"you run the command, the script will print out logs of the nodes being "
+"created: ``` Creating network \"net_test\" with the default driver "
+"Creating volume \"net_orderer.example.com\" with default driver Creating "
+"volume \"net_peer0.org1.example.com\" with default driver Creating volume"
+" \"net_peer0.org2.example.com\" with default driver Creating "
+"orderer.example.com    ... done Creating peer0.org2.example.com ... done "
+"Creating peer0.org1.example.com ... done CONTAINER ID        IMAGE"
+"                               COMMAND             CREATED             "
+"STATUS                  PORTS                              NAMES "
+"8d0c74b9d6af        hyperledger/fabric-orderer:latest   \"orderer\""
+"           4 seconds ago       Up Less than a second   "
+"0.0.0.0:7050->7050/tcp             orderer.example.com ea1cf82b5b99"
+"        hyperledger/fabric-peer:latest      \"peer node start\"   4 "
+"seconds ago       Up Less than a second   0.0.0.0:7051->7051/tcp"
+"             peer0.org1.example.com cd8d9b23cb56        hyperledger"
+"/fabric-peer:latest      \"peer node start\"   4 seconds ago       Up 1 "
+"second             7051/tcp, 0.0.0.0:9051->9051/tcp   "
+"peer0.org2.example.com ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:80
+msgid ""
+"Our instance of the test network was deployed without creating an "
+"application channel. However, the test network script creates the system "
+"channel when you issue the `./network.sh up` command. Under the covers, "
+"the script uses the `configtxgen` tool and the `configtx.yaml` file to "
+"build the genesis block of the system channel.  Because the system "
+"channel is used to create other channels, we need to take some time to "
+"understand the orderer system channel before we can create an application"
+" channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:82
+msgid "## The orderer system channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:84
+msgid ""
+"The first channel that is created in a Fabric network is the system "
+"channel. The system channel defines the set of ordering nodes that form "
+"the ordering service and the set of organizations that serve as ordering "
+"service administrators."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:86
+msgid ""
+"The system channel also includes the organizations that are members of "
+"blockchain [consortium](../glossary.html#consortium). The consortium is a"
+" set of peer organizations that belong to the system channel, but are not"
+" administrators of the ordering service. Consortium members have the "
+"ability to create new channels and include other consortium organizations"
+" as channel members."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:89
+msgid ""
+"The genesis block of the system channel is required to deploy a new "
+"ordering service. The test network script already created the system "
+"channel genesis block when you issued the `./network.sh up` command. The "
+"genesis block was used to deploy the single ordering node, which used the"
+" block to create the system channel and form the ordering service of the "
+"network. If you examine the output of the `./network.sh` script, you can "
+"find the command that created the genesis block in your logs: ``` "
+"configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel "
+"-outputBlock ./system-genesis-block/genesis.block ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:94
+msgid ""
+"The `configtxgen` tool used the `TwoOrgsOrdererGenesis` channel profile "
+"from `configtx.yaml` to write the genesis block and store it in the "
+"`system-genesis-block` folder. You can see the `TwoOrgsOrdererGenesis` "
+"profile below: ```yaml TwoOrgsOrdererGenesis:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:97
+#: ../../source/create_channel/create_channel_config.md:155
+msgid "<<: *ChannelDefaults Orderer:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:99
+#: ../../source/create_channel/create_channel_config.md:157
+msgid "<<: *OrdererDefaults Organizations:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:101
+#: ../../source/create_channel/create_channel_config.md:159
+msgid "*OrdererOrg"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:102
+#: ../../source/create_channel/create_channel.md:130
+#: ../../source/create_channel/create_channel_config.md:160
+#: ../../source/create_channel/create_channel_config.md:185
+msgid "Capabilities:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:103
+#: ../../source/create_channel/create_channel_config.md:161
+msgid "<<: *OrdererCapabilities"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:107
+#: ../../source/create_channel/create_channel_config.md:165
+msgid "Consortiums:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:107
+#: ../../source/create_channel/create_channel_config.md:165
+msgid "SampleConsortium:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:107
+#: ../../source/create_channel/create_channel_config.md:165
+msgid "Organizations:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:107
+#: ../../source/create_channel/create_channel.md:128
+#: ../../source/create_channel/create_channel_config.md:165
+#: ../../source/create_channel/create_channel_config.md:183
+msgid "*Org1"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:108
+#: ../../source/create_channel/create_channel.md:129
+#: ../../source/create_channel/create_channel_config.md:166
+#: ../../source/create_channel/create_channel_config.md:184
+msgid "*Org2"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:111
+msgid ""
+"The `Orderer:` section of the profile creates the single node Raft "
+"ordering service used by the test network, with the `OrdererOrg` as the "
+"ordering service administrator. The `Consortiums` section of the profile "
+"creates a consortium of peer organizations named `SampleConsortium:`. "
+"Both peer organizations, Org1 and Org2, are members of the consortium. As"
+" a result, we can include both organizations in new channels created by "
+"the test network. If we wanted to add another organization as a channel "
+"member without adding that organization to the consortium, we would first"
+" need to create the channel with Org1 and Org2, and then add the other "
+"organization by [updating the channel "
+"configuration](../channel_update_tutorial.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:113
+msgid "## Creating an application channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:115
+msgid ""
+"Now that we have deployed the nodes of the network and created the "
+"orderer system channel using the `network.sh` script, we can start the "
+"process of creating a new channel for our peer organizations. We have "
+"already set the environment variables that are required to use the "
+"`configtxgen` tool. Run the following command to create a channel "
+"creation transaction for `channel1`: ``` configtxgen -profile "
+"TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel1.tx "
+"-channelID channel1 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:120
+msgid ""
+"The `-channelID` will be the name of the future channel. Channel names "
+"must be all lower case, less than 250 characters long and match the "
+"regular expression ``[a-z][a-z0-9.-]*``. The command uses the uses the "
+"`-profile` flag to reference the `TwoOrgsChannel:` profile from "
+"`configtx.yaml` that is used by the test network to create application "
+"channels: ```yaml TwoOrgsChannel:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:123
+#: ../../source/create_channel/create_channel_config.md:178
+msgid "Consortium: SampleConsortium <<: *ChannelDefaults Application:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:126
+#: ../../source/create_channel/create_channel_config.md:181
+msgid "<<: *ApplicationDefaults Organizations:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:131
+#: ../../source/create_channel/create_channel_config.md:186
+msgid "<<: *ApplicationCapabilities"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:134
+msgid ""
+"The profile references the name of the `SampleConsortium` from the system"
+" channel, and includes both peer organizations from the consortium as "
+"channel members. Because the system channel is used as a template to "
+"create the application channel, the ordering nodes defined in the system "
+"channel become the default [consenter set](../glossary.html#consenter-"
+"set) of the new channel, while the administrators of the ordering service"
+" become the orderer administrators of the channel. Ordering nodes and "
+"ordering organizations can be added or removed from the consenter set "
+"using channel updates."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:136
+msgid ""
+"If the command successful, you will see logs of `configtxgen` loading the"
+" `configtx.yaml` file and printing a channel creation transaction: ``` "
+"2020-03-11 16:37:12.695 EDT [common.tools.configtxgen] main -> INFO 001 "
+"Loading configuration 2020-03-11 16:37:12.738 EDT "
+"[common.tools.configtxgen.localconfig] Load -> INFO 002 Loaded "
+"configuration: /Usrs/fabric-samples/test-network/configtx/configtx.yaml "
+"2020-03-11 16:37:12.740 EDT [common.tools.configtxgen] "
+"doOutputChannelCreateTx -> INFO 003 Generating new channel configtx "
+"2020-03-11 16:37:12.789 EDT [common.tools.configtxgen] "
+"doOutputChannelCreateTx -> INFO 004 Writing new channel tx ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:144
+msgid ""
+"We can use the `peer` CLI to submit the channel creation transaction to "
+"the ordering service. To use the `peer` CLI, we need to set the "
+"`FABRIC_CFG_PATH` to the `core.yaml` file located in the `fabric-"
+"samples/config` directory. Set the `FABRIC_CFG_PATH` environment variable"
+" by running the following command: ``` export "
+"FABRIC_CFG_PATH=$PWD/../config/ ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:149
+msgid ""
+"Before the ordering service creates the channel, the ordering service "
+"will check the permission of the identity that submitted the request. By "
+"default, only admin identities of organizations that belong to the system"
+" channel consortium can create a new channel. Issue the commands below to"
+" operate the `peer` CLI as the admin user from Org1: ``` export "
+"CORE_PEER_TLS_ENABLED=true export CORE_PEER_LOCALMSPID=\"Org1MSP\" export"
+" "
+"CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+" export "
+"CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp"
+" export CORE_PEER_ADDRESS=localhost:7051 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:158
+msgid ""
+"You can now create the channel by using the following command: ``` peer "
+"channel create -o localhost:7050  --ordererTLSHostnameOverride "
+"orderer.example.com -c channel1 -f ./channel-artifacts/channel1.tx "
+"--outputBlock ./channel-artifacts/channel1.block --tls --cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:163
+msgid ""
+"The command above provides the path to the channel creation transaction "
+"file using the `-f` flag and uses the `-c` flag to specify the channel "
+"name. The `-o` flag is used to select the ordering node that will be used"
+" to create the channel. The `--cafile` is the path to the TLS certificate"
+" of the ordering node. When you run the `peer channel create` command, "
+"the `peer` CLI will generate the following response: ``` 2020-03-06 "
+"17:33:49.322 EST [channelCmd] InitCmdFactory -> INFO 00b Endorser and "
+"orderer connections initialized 2020-03-06 17:33:49.550 EST [cli.common] "
+"readBlock -> INFO 00c Received block: 0 ``` Because we are using a Raft "
+"ordering service, you may get some status unavailable messages that you "
+"can safely ignore. The command will return the genesis block of the new "
+"channel to the location specified by the `--outputBlock` flag."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:170
+msgid "## Join peers to the channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:172
+msgid ""
+"After the channel has been created, we can join the channel with our "
+"peers. Organizations that are members of the channel can fetch the "
+"channel genesis block from the ordering service using the [peer channel "
+"fetch](../commands/peerchannel.html#peer-channel-fetch) command. The "
+"organization can then use the genesis block to join the peer to the "
+"channel using the [peer channel join](../commands/peerchannel.html#peer-"
+"channel-join) command. Once the peer is joined to the channel, the peer "
+"will build the blockchain ledger by retrieving the other blocks on the "
+"channel from the ordering service."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:174
+msgid ""
+"Since we are already operating the `peer` CLI as the Org1 admin, let's "
+"join the Org1 peer to the channel. Since Org1 submitted the channel "
+"creation transaction, we already have the channel genesis block on our "
+"file system. Join the Org1 peer to the channel using the command below. "
+"``` peer channel join -b ./channel-artifacts/channel1.block ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:179
+msgid ""
+"The `CORE_PEER_ADDRESS` environment variable has been set to target "
+"``peer0.org1.example.com``. A successful command will generate a response"
+" from ``peer0.org1.example.com`` joining the channel: ``` 2020-03-06 "
+"17:49:09.903 EST [channelCmd] InitCmdFactory -> INFO 001 Endorser and "
+"orderer connections initialized 2020-03-06 17:49:10.060 EST [channelCmd] "
+"executeJoin -> INFO 002 Successfully submitted proposal to join channel "
+"```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:185
+msgid ""
+"You can verify that the peer has joined the channel using the [peer "
+"channel getinfo](../commands/peerchannel.html#peer-channel-getinfo) "
+"command: ``` peer channel getinfo -c channel1 ``` The command will list "
+"the block height of the channel and the hash of the most recent block. "
+"Because the genesis block is the only block on the channel, the height of"
+" the channel will be 1: ``` 2020-03-13 10:50:06.978 EDT [channelCmd] "
+"InitCmdFactory -> INFO 001 Endorser and orderer connections initialized "
+"Blockchain info: "
+"{\"height\":1,\"currentBlockHash\":\"kvtQYYEL2tz0kDCNttPFNC4e6HVUFOGMTIDxZ+DeNQM=\"}"
+" ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:195
+msgid ""
+"We can now join the Org2 peer to the channel. Set the following "
+"environment variables to operate the `peer` CLI as the Org2 admin. The "
+"environment variables will also set the Org2 peer, "
+"``peer0.org1.example.com``, as the target peer. ``` export "
+"CORE_PEER_TLS_ENABLED=true export CORE_PEER_LOCALMSPID=\"Org2MSP\" export"
+" "
+"CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+" export "
+"CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp"
+" export CORE_PEER_ADDRESS=localhost:9051 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:204
+msgid ""
+"While we still have the channel genesis block on our file system, in a "
+"more realistic scenario, Org2 would have the fetch the block from the "
+"ordering service. As an example, we will use the `peer channel fetch` "
+"command to get the genesis block for Org2: ``` peer channel fetch 0 "
+"./channel-artifacts/channel_org2.block -o localhost:7050 "
+"--ordererTLSHostnameOverride orderer.example.com -c channel1 --tls "
+"--cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:209
+msgid ""
+"The command uses `0` to specify that it needs to fetch the genesis block "
+"that is required to join the channel. If the command is successful, you "
+"should see the following output: ``` 2020-03-13 11:32:06.309 EDT "
+"[channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections "
+"initialized 2020-03-13 11:32:06.336 EDT [cli.common] readBlock -> INFO "
+"002 Received block: 0 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:215
+msgid ""
+"The command returns the channel genesis block and names it "
+"`channel_org2.block` to distinguish it from the block pulled by org1. You"
+" can now use the block to join the Org2 peer to the channel: ``` peer "
+"channel join -b ./channel-artifacts/channel_org2.block ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:220
+msgid "## Set anchor peers"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:222
+msgid ""
+"After an organizations has joined their peers to the channel, they should"
+" select at least one of their peers to become an anchor peer. [Anchor "
+"peers](../gossip.html#anchor-peers) are required in order to take "
+"advantage of features such as private data and service discovery. Each "
+"organization should set multiple anchor peers on a channel for "
+"redundancy. For more information about gossip and anchor peers, see the "
+"[Gossip data dissemination protocol](../gossip.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:224
+msgid ""
+"The endpoint information of the anchor peers of each organization is "
+"included in the channel configuration. Each channel member can specify "
+"their anchor peers by updating the channel. We will use the "
+"[configtxlator](../commands/configtxlator.html) tool to update the "
+"channel configuration and select an anchor peer for Org1 and Org2. The "
+"process for setting an anchor peer is similar to the steps that are "
+"required to make other channel updates and provides an introduction to "
+"how to use `configtxlator` to [update a channel "
+"configuration](../config_update.html). You will also need to install the "
+"[jq tool](https://stedolan.github.io/jq/) on your local machine."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:226
+msgid ""
+"We will start by selecting an anchor peer as Org1. The first step is to "
+"pull the most recent channel configuration block using the `peer channel "
+"fetch` command. Set the following environment variables to operate the "
+"`peer` CLI as the Org1 admin: ``` export FABRIC_CFG_PATH=$PWD/../config/ "
+"export CORE_PEER_TLS_ENABLED=true export CORE_PEER_LOCALMSPID=\"Org1MSP\""
+" export "
+"CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+" export "
+"CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp"
+" export CORE_PEER_ADDRESS=localhost:7051 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:236
+msgid ""
+"You can use the following command to fetch the channel configuration: ```"
+" peer channel fetch config channel-artifacts/config_block.pb -o "
+"localhost:7050 --ordererTLSHostnameOverride orderer.example.com -c "
+"channel1 --tls --cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ``` Because the most recent channel configuration block is "
+"the channel genesis block, you will see the command return block 0 from "
+"the channel. ``` 2020-04-15 20:41:56.595 EDT [channelCmd] InitCmdFactory "
+"-> INFO 001 Endorser and orderer connections initialized 2020-04-15 "
+"20:41:56.603 EDT [cli.common] readBlock -> INFO 002 Received block: 0 "
+"2020-04-15 20:41:56.603 EDT [channelCmd] fetch -> INFO 003 Retrieving "
+"last config block: 0 2020-04-15 20:41:56.608 EDT [cli.common] readBlock "
+"-> INFO 004 Received block: 0 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:248
+msgid ""
+"The channel configuration block was stored in the `channel-artifacts` "
+"folder to keep the update process separate from other artifacts. Change "
+"into the  `channel-artifacts` folder to complete the next steps: ``` cd "
+"channel-artifacts ``` We can now start using the `configtxlator` tool to "
+"start working with the channel configuration. The first step is to decode"
+" the block from protobuf into a JSON object that can be read and edited. "
+"We also strip away the unnecessary block data, leaving only the channel "
+"configuration."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:254
+msgid ""
+"``` configtxlator proto_decode --input config_block.pb --type "
+"common.Block --output config_block.json jq "
+".data.data[0].payload.data.config config_block.json > config.json ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:259
+msgid ""
+"These commands convert the channel configuration block into a streamlined"
+" JSON, `config.json`, that will serve as the baseline for our update. "
+"Because we don't want to edit this file directly, we will make a copy "
+"that we can edit. We will use the original channel config in a future "
+"step. ``` cp config.json config_copy.json ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:264
+msgid ""
+"You can use the `jq` tool to add the Org1 anchor peer to the channel "
+"configuration. ``` jq "
+"'.channel_group.groups.Application.groups.Org1MSP.values += "
+"{\"AnchorPeers\":{\"mod_policy\": \"Admins\",\"value\":{\"anchor_peers\":"
+" [{\"host\": \"peer0.org1.example.com\",\"port\": 7051}]},\"version\": "
+"\"0\"}}' config_copy.json > modified_config.json ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:269
+msgid ""
+"After this step, we have an updated version of channel configuration in "
+"JSON format in the `modified_config.json` file. We can now convert both "
+"the original and modified channel configurations back into protobuf "
+"format and calculate the difference between them. ``` configtxlator "
+"proto_encode --input config.json --type common.Config --output config.pb "
+"configtxlator proto_encode --input modified_config.json --type "
+"common.Config --output modified_config.pb configtxlator compute_update "
+"--channel_id channel1 --original config.pb --updated modified_config.pb "
+"--output config_update.pb ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:276
+msgid ""
+"The new protobuf named `channel_update.pb` contains the anchor peer "
+"update that we need to apply to the channel configuration. We can wrap "
+"the configuration update in a transaction envelope to create the channel "
+"configuration update transaction."
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:278
+msgid ""
+"``` configtxlator proto_decode --input config_update.pb --type "
+"common.ConfigUpdate --output config_update.json echo "
+"'{\"payload\":{\"header\":{\"channel_header\":{\"channel_id\":\"channel1\","
+" \"type\":2}},\"data\":{\"config_update\":'$(cat config_update.json)'}}}'"
+" | jq . > config_update_in_envelope.json configtxlator proto_encode "
+"--input config_update_in_envelope.json --type common.Envelope --output "
+"config_update_in_envelope.pb ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:284
+msgid ""
+"We can now use the final artifact, `config_update_in_envelope.pb`, that "
+"can be used to update the channel. Navigate back to the `test-network` "
+"directory: ``` cd .. ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:289
+msgid ""
+"We can add the anchor peer by providing the new channel configuration to "
+"the `peer channel update` command. Because we are updating a section of "
+"the channel configuration that only affects Org1, other channel members "
+"do not need to approve the channel update. ``` peer channel update -f "
+"channel-artifacts/config_update_in_envelope.pb -c channel1 -o "
+"localhost:7050  --ordererTLSHostnameOverride orderer.example.com --tls "
+"--cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:294
+msgid ""
+"When the channel update is successful, you should see the following "
+"response: ``` 2020-01-09 21:30:45.791 UTC [channelCmd] update -> INFO 002"
+" Successfully submitted channel update ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:299
+msgid ""
+"We can set the anchor peers for Org2. Because we are going through the "
+"process a second time, we will go through the steps more quickly. Set the"
+" environment variables to operate the `peer` CLI as the Org2 admin: ``` "
+"export CORE_PEER_TLS_ENABLED=true export CORE_PEER_LOCALMSPID=\"Org2MSP\""
+" export "
+"CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+" export "
+"CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp"
+" export CORE_PEER_ADDRESS=localhost:9051 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:308
+msgid ""
+"Pull the latest channel configuration block, which is now the second "
+"block on the channel: ``` peer channel fetch config channel-"
+"artifacts/config_block.pb -o localhost:7050 --ordererTLSHostnameOverride "
+"orderer.example.com -c channel1 --tls --cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:313
+msgid ""
+"Navigate back to the `channel-artifacts` directory: ``` cd channel-"
+"artifacts ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:318
+msgid ""
+"You can then decode and copy the configuration block. ``` configtxlator "
+"proto_decode --input config_block.pb --type common.Block --output "
+"config_block.json jq .data.data[0].payload.data.config config_block.json "
+"> config.json cp config.json config_copy.json ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:325
+msgid ""
+"Add the Org2 peer that is joined to the channel as the anchor peer in the"
+" channel configuration: ``` jq "
+"'.channel_group.groups.Application.groups.Org2MSP.values += "
+"{\"AnchorPeers\":{\"mod_policy\": \"Admins\",\"value\":{\"anchor_peers\":"
+" [{\"host\": \"peer0.org2.example.com\",\"port\": 9051}]},\"version\": "
+"\"0\"}}' config_copy.json > modified_config.json ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:330
+msgid ""
+"We can now convert both the original and updated channel configurations "
+"back into protobuf format and calculate the difference between them. ``` "
+"configtxlator proto_encode --input config.json --type common.Config "
+"--output config.pb configtxlator proto_encode --input "
+"modified_config.json --type common.Config --output modified_config.pb "
+"configtxlator compute_update --channel_id channel1 --original config.pb "
+"--updated modified_config.pb --output config_update.pb ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:337
+msgid ""
+"Wrap the configuration update in a transaction envelope to create the "
+"channel configuration update transaction: ``` configtxlator proto_decode "
+"--input config_update.pb --type common.ConfigUpdate --output "
+"config_update.json echo "
+"'{\"payload\":{\"header\":{\"channel_header\":{\"channel_id\":\"channel1\","
+" \"type\":2}},\"data\":{\"config_update\":'$(cat config_update.json)'}}}'"
+" | jq . > config_update_in_envelope.json configtxlator proto_encode "
+"--input config_update_in_envelope.json --type common.Envelope --output "
+"config_update_in_envelope.pb ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:344
+msgid "Navigate back to the `test-network` directory. ``` cd .. ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:349
+msgid ""
+"Update the channel and set the Org2 anchor peer by issuing the following "
+"command: ``` peer channel update -f channel-"
+"artifacts/config_update_in_envelope.pb -c channel1 -o localhost:7050  "
+"--ordererTLSHostnameOverride orderer.example.com --tls --cafile "
+"${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example"
+".com-cert.pem ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:354
+msgid ""
+"You can confirm that the channel has been updated successfully by running"
+" the `peer channel info` command: ``` peer channel getinfo -c channel1 "
+"``` Now that the channel has been updated by adding two channel "
+"configuration blocks to the channel genesis block, the height of the "
+"channel will have grown to three: ``` Blockchain info: "
+"{\"height\":3,\"currentBlockHash\":\"eBpwWKTNUgnXGpaY2ojF4xeP3bWdjlPHuxiPCTIMxTk=\",\"previousBlockHash\":\"DpJ8Yvkg79XHXNfdgneDb0jjQlXLb/wxuNypbfHMjas=\"}"
+" ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:363
+msgid "## Deploy a chaincode to the new channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:365
+msgid ""
+"We can confirm that the channel was created successfully by deploying a "
+"chaincode to the channel. We can use the `network.sh` script to deploy "
+"the Fabcar chaincode to any test network channel. Deploy a chaincode to "
+"our new channel using the following command: ``` ./network.sh deployCC -c"
+" channel1 ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel.md:370
+msgid ""
+"After you run the command, you should see the chaincode being deployed to"
+" the channel in your logs. The chaincode is invoked to add data to the "
+"channel ledger and then queried. ``` "
+"[{\"Key\":\"CAR0\",\"Record\":{\"make\":\"Toyota\",\"model\":\"Prius\",\"colour\":\"blue\",\"owner\":\"Tomoko\"}},"
+" "
+"{\"Key\":\"CAR1\",\"Record\":{\"make\":\"Ford\",\"model\":\"Mustang\",\"colour\":\"red\",\"owner\":\"Brad\"}},"
+" "
+"{\"Key\":\"CAR2\",\"Record\":{\"make\":\"Hyundai\",\"model\":\"Tucson\",\"colour\":\"green\",\"owner\":\"Jin"
+" Soo\"}}, "
+"{\"Key\":\"CAR3\",\"Record\":{\"make\":\"Volkswagen\",\"model\":\"Passat\",\"colour\":\"yellow\",\"owner\":\"Max\"}},"
+" "
+"{\"Key\":\"CAR4\",\"Record\":{\"make\":\"Tesla\",\"model\":\"S\",\"colour\":\"black\",\"owner\":\"Adriana\"}},"
+" "
+"{\"Key\":\"CAR5\",\"Record\":{\"make\":\"Peugeot\",\"model\":\"205\",\"colour\":\"purple\",\"owner\":\"Michel\"}},"
+" "
+"{\"Key\":\"CAR6\",\"Record\":{\"make\":\"Chery\",\"model\":\"S22L\",\"colour\":\"white\",\"owner\":\"Aarav\"}},"
+" "
+"{\"Key\":\"CAR7\",\"Record\":{\"make\":\"Fiat\",\"model\":\"Punto\",\"colour\":\"violet\",\"owner\":\"Pari\"}},"
+" "
+"{\"Key\":\"CAR8\",\"Record\":{\"make\":\"Tata\",\"model\":\"Nano\",\"colour\":\"indigo\",\"owner\":\"Valeria\"}},"
+" "
+"{\"Key\":\"CAR9\",\"Record\":{\"make\":\"Holden\",\"model\":\"Barina\",\"colour\":\"brown\",\"owner\":\"Shotaro\"}}]"
+" ===================== Query successful on peer0.org1 on channel "
+"'channel1' ===================== ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:1
+msgid "# Using configtx.yaml to build a channel configuration"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:3
+msgid ""
+"A channel is created by building a channel creation transaction artifact "
+"that specifies the initial configuration of the channel. The **channel "
+"configuration** is stored on the ledger, and governs all the subsequent "
+"blocks that are added to the channel. The channel configuration specifies"
+" which organizations are channel members, the ordering nodes that can add"
+" new blocks on the channel, as well as the policies that govern channel "
+"updates. The initial channel configuration, stored in the channel genesis"
+" block, can be updated through channel configuration updates. If a "
+"sufficient number of organizations approve a channel update, a new "
+"channel config block will govern the channel after it is committed to the"
+" channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:5
+msgid ""
+"While it is possible to build the channel creation transaction file "
+"manually, it is easier to create a channel by using the `configtx.yaml` "
+"file and the [configtxgen](../commands/configtxgen.html) tool. The "
+"`configtx.yaml` file contains the information that is required to build "
+"the channel configuration in a format that can be easily read and edited "
+"by humans. The `configtxgen` tool reads the information in the "
+"`configtx.yaml` file and writes it to the [protobuf "
+"format](https://developers.google.com/protocol-buffers) that can be read "
+"by Fabric."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:7
+msgid "## Overview"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:9
+msgid ""
+"You can use this tutorial to learn how to use the `configtx.yaml` file to"
+" build the initial channel configuration that is stored in the genesis "
+"block. The tutorial will discuss the portion of channel configuration "
+"that is built by each section of file."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:11
+msgid "[Organizations](#organizations)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:12
+msgid "[Capabilities](#capabilities)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:13
+msgid "[Application](#application)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:14
+msgid "[Orderer](#orderer)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:15
+msgid "[Channel](#channel)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:16
+msgid "[Profiles](#profiles)"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:18
+msgid ""
+"Because different sections of the file work together to create the "
+"policies that govern the channel, we will discuss channel policies in "
+"[their own tutorial](channel_policies.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:20
+msgid ""
+"Building off of the [Creating a channel tutorial](create_channel.html), "
+"we will use the `configtx.yaml` file that is used to deploy the Fabric "
+"test network as an example. Open a command terminal on your local machine"
+" and navigate to the `test-network` directory in your local clone of the "
+"Fabric samples: ``` cd fabric-samples/test-network ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:25
+msgid ""
+"The `configtx.yaml` file used by the test network is located in the "
+"`configtx` folder. Open the file in a text editor. You can refer back to "
+"this file as the tutorial goes through each section. You can find a more "
+"detailed version of the `configtx.yaml` file in the [Fabric sample "
+"configuration](https://github.com/hyperledger/fabric/blob/master/sampleconfig/configtx.yaml)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:27
+msgid "## Organizations"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:29
+msgid ""
+"The most important information contained in the channel configuration are"
+" the organizations that are channel members.  Each organization is "
+"identified by an MSP ID and a [channel "
+"MSP](../membership/membership.html). The channel MSP is stored in the "
+"channel configuration and contains the certificates that are used to the "
+"identify the nodes, applications, and administrators of an organization. "
+"The **Organizations** section of `configtx.yaml` file is used to create "
+"the channel MSP and accompanying MSP ID for each member of the channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:31
+msgid ""
+"The `configtx.yaml` file used by the test network contains three "
+"organizations. Two organizations are peer organizations, Org1 and Org2, "
+"that can be added to application channels. One organization, OrdererOrg, "
+"is the administrator of the ordering service. Because it is a best "
+"practice to use different certificate authorities to deploy peer nodes "
+"and ordering nodes, organizations are often referred to as peer "
+"organizations or ordering organizations, even if they are in fact run by "
+"the same company."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:85
+msgid ""
+"You can see the part of `configtx.yaml` that defines Org1 of the test "
+"network below:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:34
+msgid "```yaml - &Org1"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:36
+msgid ""
+"# DefaultOrg defines the organization which is used in the sampleconfig #"
+" of the fabric.git development environment Name: Org1MSP"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:40
+msgid "# ID to load the MSP definition as ID: Org1MSP"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:43
+msgid "MSPDir: ../organizations/peerOrganizations/org1.example.com/msp"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:45
+msgid ""
+"# Policies defines the set of policies at this level of the config tree #"
+" For organization policies, their canonical path is usually #   "
+"/Channel/<Application|Orderer>/<OrgName>/<PolicyName> Policies:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:62
+msgid "# leave this flag set to true. AnchorPeers:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:64
+msgid ""
+"# AnchorPeers defines the location of peers which can be used # for cross"
+" org gossip communication.  Note, this value is only # encoded in the "
+"genesis block in the Application section context - Host: "
+"peer0.org1.example.com"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:68
+msgid "Port: 7051"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:71
+msgid "The `Name` field is an informal name used to identify the organization."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:73
+msgid ""
+"The `ID` field is the organization's MSP ID. The MSP ID acts as a unique "
+"identifier for your organization, and is referred to by channel policies "
+"and is included in the transactions submitted to the channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:75
+msgid ""
+"The `MSPDir` is the path to an MSP folder that was created by the "
+"organization. The `configtxgen` tool will use this MSP folder to create "
+"the channel MSP. This MSP folder needs to contain the following "
+"information, which will be transferred to the channel MSP and stored in "
+"the channel configuration: - A CA root certificate that establishes the "
+"root of trust for the organization. The CA root cert is used to verify if"
+" an application, node, or administrator belongs to a channel member. - A "
+"root cert from the TLS CA that issued the TLS certificates of the peer or"
+" orderer nodes. The TLS root cert is used to identify the organization by"
+" the gossip protocol. - If Node OUs are enabled, the MSP folder needs to "
+"contain a `config.yaml` file that identifies the administrators, nodes, "
+"and clients based on the OUs of their x509 certificates. - If Node OUs "
+"are not enabled, the MSP needs to contain an admincerts folder that "
+"contains the signing certificates of the organizations administrator "
+"identities."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:81
+msgid ""
+"The MSP folder that is used to create the channel MSP only contains "
+"public certificates. As a result, you can build the MSP folder locally, "
+"and then send the MSP to the organization that is creating the channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:83
+msgid ""
+"The `Policies` section is used to define a set of signature policies that"
+" reference the channel member. We will discuss these policies in more "
+"detail when we discuss [channel policies](channel_policies.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:85
+msgid ""
+"The `AnchorPeers` field lists the anchor peers for an organization. "
+"Anchor peers are required in order to take advantage of features such as "
+"private data and service discovery. It is recommended that organizations "
+"select at least one anchor peer. While an organization can select their "
+"anchor peers on the channel for the first time using the `configtxgen` "
+"tool, it is recommended that each organization set anchor peers by using "
+"the `configtxlator` tool to [update the channel "
+"configuration](create_channel.html#set-anchor-peers). As a result, this "
+"field is not required."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:87
+msgid "## Capabilities"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:89
+msgid ""
+"Fabric channels can be joined by orderer and peer nodes that are running "
+"different versions of Hyperledger Fabric. Channel capabilities allow "
+"organizations that are running different Fabric binaries to participate "
+"on the same channel by only enabling certain features. For example, "
+"organizations that are running Fabric v1.4 and organizations that are "
+"running Fabric v2.x can join the same channel as long as the channel "
+"capabilities levels are set to V1_4_X or below. None of the channel "
+"members will be able to use the features introduced in Fabric v2.0."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:91
+msgid ""
+"If you examine the `configtx.yaml` file, you will see three capability "
+"groups:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:93
+msgid ""
+"**Application** capabilities govern the features that are used by peer "
+"nodes, such as the Fabric chaincode lifecycle, and set the minimum "
+"version of the Fabric binaries that can be run by peers joined to the "
+"channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:95
+msgid ""
+"**Orderer** capabilities govern the features that are used by orderer "
+"nodes, such as Raft consensus, and set the minimum version of the Fabric "
+"binaries that can be run by ordering nodes that belong to the channel "
+"consenter set."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:97
+msgid ""
+"**Channel** capabilities set the minimum version of the Fabric that can "
+"be run by peer and ordering nodes."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:99
+msgid ""
+"Because both of the peers and the ordering node of the Fabric test "
+"network run version v2.x, every capability group is set to `V2_0`. As a "
+"result, the test network cannot be joined by nodes that run a lower "
+"version of Fabric than v2.0. For more information, see the "
+"[capabilities](../capabilities_concept.html) concept topic."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:101
+msgid "## Application"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:103
+msgid ""
+"The application section defines the policies that govern how peer "
+"organizations can interact with application channels. These policies "
+"govern the number of peer organizations that need to approve a chaincode "
+"definition or sign a request to update the channel configuration. These "
+"policies are also used to restrict access to channel resources, such as "
+"the ability to write to the channel ledger or to query channel events."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:105
+msgid ""
+"The test network uses the default application policies provided by "
+"Hyperledger Fabric. If you use the default policies, all peer "
+"organizations will be able to read and write data to the ledger. The "
+"default policies also require that a majority of channel members sign "
+"channel configuration updates and that a majority of channel members need"
+" to approve a chaincode definition before a chaincode can be deployed to "
+"a channel. The contents of this section are discussed in more detail in "
+"the [channel policies](channel_policies.html) tutorial."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:107
+msgid "## Orderer"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:109
+msgid ""
+"Each channel configuration includes the orderer nodes in the channel "
+"[consenter set](../glossary.html#consenter-set). The consenter set is the"
+" group of ordering nodes that have the ability to create new blocks and "
+"distribute them to the peers joined to the channel. The endpoint "
+"information of each ordering node that is a member of the consenter set "
+"is stored in the channel configuration."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:111
+msgid ""
+"The test network uses the **Orderer** section of the `configtx.yaml` file"
+" to create a single node Raft ordering service."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:113
+msgid ""
+"The `OrdererType` field is used to select Raft as the consensus type: ```"
+" OrdererType: etcdraft ```"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:118
+msgid ""
+"Raft ordering services are defined by the list of consenters that can "
+"participate in the consensus process. Because the test network only uses "
+"a single ordering node, the consenters list contains only one endpoint: "
+"```yaml EtcdRaft:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:121
+msgid "Consenters: - Host: orderer.example.com"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:123
+msgid ""
+"Port: 7050 ClientTLSCert: "
+"../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+" ServerTLSCert: "
+"../organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:126
+msgid "Addresses: - orderer.example.com:7050"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:130
+msgid ""
+"Each ordering node in the list of consenters is identified by their "
+"endpoint address and their client and server TLS certificate. If you are "
+"deploying a multi-node ordering service, you would need to provide the "
+"hostname, port, and the path to the TLS certificates used by each node. "
+"You would also need to add the endpoint address of each ordering node to "
+"the list of `Addresses`."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:132
+msgid ""
+"You can use the `BatchTimeout` and `BatchSize` fields to tune the latency"
+" and throughput of the channel by changing the maximum size of each block"
+" and how often a new block is created."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:134
+msgid ""
+"The `Policies` section creates the policies that govern the channel "
+"consenter set. The test network uses the default policies provided by "
+"Fabric, which require that a majority of orderer administrators approve "
+"the addition or removal of ordering nodes, organizations, or an update to"
+" the block cutting parameters."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:136
+msgid ""
+"Because the test network is used for development and testing, it uses an "
+"ordering service that consists of a single ordering node. Networks that "
+"are deployed in production should use a multi-node ordering service for "
+"security and availability. To learn more, see [Configuring and operating "
+"a Raft ordering service](../raft_configuration.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:138
+msgid "## Channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:140
+msgid ""
+"The channel section defines that policies that govern the highest level "
+"of the channel configuration. For an application channel, these policies "
+"govern the hashing algorithm, the data hashing structure used to create "
+"new blocks, and the channel capability level. In the system channel, "
+"these policies also govern the creation or removal of consortiums of peer"
+" organizations."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:142
+msgid ""
+"The test network uses the default policies provided by Fabric, which "
+"require that a majority of orderer service administrators would need to "
+"approve updates to these values in the system channel. In an application "
+"channel, changes would need to be approved by a majority of orderer "
+"organizations and a majority of channel members. Most users will not need"
+" to change these values."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:144
+msgid "## Profiles"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:146
+msgid ""
+"The `configtxgen` tool reads the channel profiles in the **Profiles** "
+"section to build a channel configuration. Each profile uses YAML syntax "
+"to gather data from other sections of the file. The `configtxgen` tool "
+"uses this configuration to create a channel creation transaction for an "
+"applications channel, or to write the channel genesis block for a system "
+"channel. To learn more about YAML syntax, "
+"[Wikipedia](https://en.wikipedia.org/wiki/YAML) provides a good place to "
+"get started."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:148
+msgid ""
+"The `configtx.yaml` used by the test network contains two channel "
+"profiles, `TwoOrgsOrdererGenesis` and `TwoOrgsChannel`:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:150
+msgid "### TwoOrgsOrdererGenesis"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:152
+msgid ""
+"The `TwoOrgsOrdererGenesis` profile is used to create the system channel "
+"genesis block: ```yaml TwoOrgsOrdererGenesis:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:169
+msgid ""
+"The system channel defines the nodes of the ordering service and the set "
+"of organizations that are ordering service administrators. The system "
+"channel also includes a set of peer organizations that belong to the "
+"blockchain [consortium](../glossary.html#consortium). The channel MSP of "
+"each member of the consortium is included in the system channel, allowing"
+" them to create new application channels and add consortium members to "
+"the new channel."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:171
+msgid ""
+"The profile creates a consortium named `SampleConsortium` that contains "
+"the two peer organizations in the `configtx.yaml` file, Org1 and Org2. "
+"The `Orderer` section of the profile uses the single node Raft ordering "
+"service defined in the **Orderer:** section of the file. The OrdererOrg "
+"from the **Organizations:** section is made the only administrator of the"
+" ordering service. Because our only ordering node is running Fabric 2.x, "
+"we can set the orderer system channel capability to `V2_0`. The system "
+"channel uses default policies from the **Channel** section and enables "
+"`V2_0` as the channel capability level."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:173
+msgid "### TwoOrgsChannel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:175
+msgid ""
+"The `TwoOrgsChannel` profile is used by the test network to create "
+"application channels: ```yaml TwoOrgsChannel:"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:189
+msgid ""
+"The system channel is used by the ordering service as a template to "
+"create application channels. The nodes of the ordering service that are "
+"defined in the system channel become the default consenter set of new "
+"channels, while the administrators of the ordering service become the "
+"orderer administrators of the channel. The channel MSPs of channel "
+"members are transferred to the new channel from the system channel. After"
+" the channel is created, ordering nodes can be added or removed from the "
+"channel by updating the channel configuration. You can also update the "
+"channel configuration to [add other organizations as channel "
+"members](../channel_update_tutorial.html)."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_config.md:191
+msgid ""
+"The `TwoOrgsChannel` provides the name of the consortium, "
+"`SampleConsortium`, hosted by the test network system channel. As a "
+"result, the ordering service defined in the `TwoOrgsOrdererGenesis` "
+"profile becomes channel consenter set. In the `Application` section, both"
+" organizations from the consortium, Org1 and Org2, are included as "
+"channel members. The channel uses `V2_0` as the application capabilities,"
+" and uses the default policies from the **Application** section to govern"
+" how peer organizations will interact with the channel. The application "
+"channel also uses the default policies from the **Channel** section and "
+"enables `V2_0` as the channel capability level."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_overview.rst:2
+msgid "Creating a channel"
+msgstr ""
+
+#: ../../source/create_channel/create_channel_overview.rst:4
+msgid ""
+"In order to create and transfer assets on a Hyperledger Fabric network, "
+"an organization needs to join a channel. Channels are a private layer of "
+"communication between specific organizations and are invisible to other "
+"members of the network. Each channel consists of a separate ledger that "
+"can only be read and written to by channel members, who are allowed to "
+"join their peers to the channel and receive new blocks of transactions "
+"from the ordering service. While the peers, nodes, and Certificate "
+"Authorities form the physical infrastructure of the network, channels are"
+" the process by which organizations connect with each other and interact."
+msgstr ""
+
+#: ../../source/create_channel/create_channel_overview.rst:13
+msgid ""
+"Because of the fundamental role that channels play in the operation and "
+"governance of Fabric, we provide a series of tutorials that will cover "
+"different aspects of how channels are created. The :doc:`create_channel` "
+"tutorial describes the operational steps that need to be taken by a "
+"network administrator. The :doc:`create_channel_config` tutorial "
+"introduces the conceptual aspects of creating a channel, followed by a "
+"separate discussion of :doc:`channel_policies`."
+msgstr ""
+

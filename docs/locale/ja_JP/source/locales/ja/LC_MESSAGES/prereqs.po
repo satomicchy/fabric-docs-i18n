@@ -1,0 +1,168 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, hyperledger
+# This file is distributed under the same license as the
+# hyperledger-fabricdocs package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: hyperledger-fabricdocs master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-19 19:02+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../source/prereqs.rst:2
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../source/prereqs.rst:4
+msgid ""
+"Before you begin, you should confirm that you have installed all the "
+"prerequisites below on the platform where you will be running Hyperledger"
+" Fabric."
+msgstr ""
+
+#: ../../source/prereqs.rst:6
+msgid ""
+"These prerequisites are recommended for Fabric users. If you are a Fabric"
+" developer you should refer to the instructions for :doc:`dev-"
+"setup/devenv`."
+msgstr ""
+
+#: ../../source/prereqs.rst:9
+msgid "Install Git"
+msgstr ""
+
+#: ../../source/prereqs.rst:10
+msgid ""
+"Download the latest version of `git <https://git-scm.com/downloads>`_ if "
+"it is not already installed, or if you have problems running the curl "
+"commands."
+msgstr ""
+
+#: ../../source/prereqs.rst:15
+msgid "Install cURL"
+msgstr ""
+
+#: ../../source/prereqs.rst:17
+msgid ""
+"Download the latest version of the `cURL "
+"<https://curl.haxx.se/download.html>`__ tool if it is not already "
+"installed or if you get errors running the curl commands from the "
+"documentation."
+msgstr ""
+
+#: ../../source/prereqs.rst:22
+msgid ""
+"If you're on Windows please see the specific note on `Windows extras`_ "
+"below."
+msgstr ""
+
+#: ../../source/prereqs.rst:26
+msgid "Docker and Docker Compose"
+msgstr ""
+
+#: ../../source/prereqs.rst:28
+msgid ""
+"You will need the following installed on the platform on which you will "
+"be operating, or developing on (or for), Hyperledger Fabric:"
+msgstr ""
+
+#: ../../source/prereqs.rst:31
+msgid ""
+"MacOSX, \\*nix, or Windows 10: `Docker <https://www.docker.com/get-"
+"docker>`__ Docker version 17.06.2-ce or greater is required."
+msgstr ""
+
+#: ../../source/prereqs.rst:33
+msgid ""
+"Older versions of Windows: `Docker Toolbox "
+"<https://docs.docker.com/toolbox/toolbox_install_windows/>`__ - again, "
+"Docker version Docker 17.06.2-ce or greater is required."
+msgstr ""
+
+#: ../../source/prereqs.rst:37
+msgid ""
+"You can check the version of Docker you have installed with the following"
+" command from a terminal prompt:"
+msgstr ""
+
+#: ../../source/prereqs.rst:44
+msgid "The following applies to linux systems running systemd."
+msgstr ""
+
+#: ../../source/prereqs.rst:46
+msgid "Make sure the docker daemon is running."
+msgstr ""
+
+#: ../../source/prereqs.rst:52
+msgid ""
+"Optional: If you want the docker daemon to start when the system starts, "
+"use the following:"
+msgstr ""
+
+#: ../../source/prereqs.rst:58
+msgid "Add your user to the docker group."
+msgstr ""
+
+#: ../../source/prereqs.rst:64
+msgid ""
+"Installing Docker for Mac or Windows, or Docker Toolbox will also install"
+" Docker Compose. If you already had Docker installed, you should check "
+"that you have Docker Compose version 1.14.0 or greater installed. If not,"
+" we recommend that you install a more recent version of Docker."
+msgstr ""
+
+#: ../../source/prereqs.rst:70
+msgid ""
+"You can check the version of Docker Compose you have installed with the "
+"following command from a terminal prompt:"
+msgstr ""
+
+#: ../../source/prereqs.rst:80
+msgid "Windows extras"
+msgstr ""
+
+#: ../../source/prereqs.rst:82
+msgid ""
+"On Windows 10 you should use the native Docker distribution and you may "
+"use the Windows PowerShell. However, for the ``binaries`` command to "
+"succeed you will still need to have the ``uname`` command available. You "
+"can get it as part of Git but beware that only the 64bit version is "
+"supported."
+msgstr ""
+
+#: ../../source/prereqs.rst:88
+msgid "Before running any ``git clone`` commands, run the following commands:"
+msgstr ""
+
+#: ../../source/prereqs.rst:95
+msgid "You can check the setting of these parameters with the following commands:"
+msgstr ""
+
+#: ../../source/prereqs.rst:102
+msgid "These need to be ``false`` and ``true`` respectively."
+msgstr ""
+
+#: ../../source/prereqs.rst:104
+msgid ""
+"The ``curl`` command that comes with Git and Docker Toolbox is old and "
+"does not handle properly the redirect used in :doc:`getting_started`. "
+"Make sure you have and use a newer version which can be downloaded from "
+"the `cURL downloads page <https://curl.haxx.se/download.html>`__"
+msgstr ""
+
+#: ../../source/prereqs.rst:110
+msgid ""
+"If you have questions not addressed by this documentation, or run into "
+"issues with any of the tutorials, please visit the :doc:`questions` page "
+"for some tips on where to find additional help."
+msgstr ""
+
